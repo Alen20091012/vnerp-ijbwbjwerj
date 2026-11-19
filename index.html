@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Тест: коммуникационные барьеры</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;900&display=swap" rel="stylesheet">
+<style>
+:root{--yellow:#FFC000;--brown:#451010;--bg:#fff;--ink:#141414;--card:#f5f0e6;--ok:#2e7d32;--bad:#c62828;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c0707;--ink:#fff3d6;--card:#2e0f0f;--ok:#7bd88f;--bad:#ff8a80}}
+:root[data-theme="dark"]{--bg:#1c0707;--ink:#fff3d6;--card:#2e0f0f;--ok:#7bd88f;--bad:#ff8a80}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Rubik,system-ui,Arial,sans-serif;line-height:1.4}
+.wrap{max-width:720px;margin:0 auto;padding:24px 18px 48px}
+header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+h1{font-weight:900;font-size:clamp(40px,11vw,76px);line-height:.95;margin:0;text-transform:uppercase;letter-spacing:-.01em}
+.ball{flex:none;width:72px;height:72px;border-radius:50%;background:var(--brown);display:grid;place-items:center}
+.ball i{width:34px;height:34px;border-radius:50%;background:var(--yellow);color:var(--brown);display:grid;place-items:center;font:900 22px Rubik,sans-serif;font-style:normal}
+.panel{border-radius:28px;padding:24px;margin-top:22px}
+.yellow{background:var(--yellow);color:var(--brown)}
+.dark{background:var(--brown);color:#fff}
+.panel h2{font-weight:900;font-size:22px;margin:0 0 12px;text-transform:uppercase}
+.q{font-weight:900;font-size:clamp(22px,5.5vw,30px);line-height:1.15;margin:0 0 18px}
+.opts{display:grid;gap:10px}
+.opt{all:unset;box-sizing:border-box;cursor:pointer;display:flex;gap:12px;align-items:center;background:var(--yellow);color:var(--brown);border-radius:20px;padding:14px 18px;font-weight:500;font-size:17px;border:3px solid transparent;transition:transform .12s}
+.opt b{flex:none;width:30px;height:30px;border-radius:50%;background:var(--brown);color:var(--yellow);display:grid;place-items:center;font-weight:900;font-size:14px}
+.opt:hover:not([disabled]){transform:translateX(4px)}
+.opt:focus-visible,.btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.opt.ok{background:#b9e8bf;border-color:#2e7d32}
+.opt.bad{background:#ffb4ac;border-color:#c62828}
+.opt[disabled]{cursor:default}
+.bar{height:14px;border-radius:9px;background:var(--card);overflow:hidden;margin:22px 0 8px}
+.bar div{height:100%;background:var(--yellow);border-radius:9px;transition:width .3s}
+.meta{display:flex;justify-content:space-between;font-weight:500;font-size:15px}
+.btn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-block;background:var(--brown);color:#fff;font-weight:900;text-transform:uppercase;border-radius:999px;padding:15px 28px;font-size:17px;margin-top:18px}
+.btn.alt{background:var(--yellow);color:var(--brown)}
+.dark .btn{background:var(--yellow);color:var(--brown)}
+.btn:hover{filter:brightness(1.1)}
+.score{font-weight:900;font-size:clamp(70px,22vw,130px);line-height:1;margin:0}
+.grade{font-weight:900;font-size:28px;text-transform:uppercase;margin:6px 0 0}
+.rev{margin-top:14px;display:grid;gap:10px}
+.rev div{background:var(--card);border-radius:18px;padding:14px 16px;font-size:15px}
+.rev strong{display:block;margin-bottom:4px}
+.rev .g{color:var(--ok)}.rev .r{color:var(--bad)}
+svg.sq{display:block;width:100%;height:auto;margin-top:22px;border-radius:28px;background:var(--yellow)}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>Тест: барьеры в общении</h1>
+<div class="ball" aria-hidden="true"><i>8</i></div>
+</header>
+
+<section id="start">
+<div class="panel yellow">
+<h2>Виды коммуникационных барьеров</h2>
+<p style="margin:0;font-size:18px">20 вопросов. В каждом выберите один правильный вариант из четырёх. Результат и разбор ошибок появятся в конце.</p>
+<button class="btn" id="go">Начать тест</button>
+</div>
+<svg class="sq" viewBox="0 0 700 220" aria-hidden="true"><path d="M30 220V110C30 40 130 40 130 110V220M200 220V80C200 20 290 20 290 80C290 130 330 150 400 150C470 150 520 120 520 90C520 50 440 50 440 90C440 120 520 140 560 100L680 0" fill="none" stroke="#451010" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</section>
+
+<section id="quiz" hidden>
+<div class="bar"><div id="fill"></div></div>
+<div class="meta"><span id="num"></span><span id="sc"></span></div>
+<div class="panel dark" style="margin-top:14px">
+<p class="q" id="q" style="color:#fff"></p>
+</div>
+<div class="opts" id="opts" style="margin-top:14px"></div>
+<button class="btn" id="next" hidden>Дальше</button>
+</section>
+
+<section id="result" hidden>
+<div class="panel yellow">
+<p class="score" id="rs"></p>
+<p class="grade" id="rg"></p>
+<p id="rt" style="margin:10px 0 0;font-size:18px"></p>
+<button class="btn" id="again">Пройти заново</button>
+</div>
+<div class="panel dark">
+<h2>Разбор ошибок</h2>
+<div class="rev" id="rev" style="color:var(--ink)"></div>
+</div>
+</section>
+</div>
+
+<script>
+const Q=[
+["Что такое коммуникационный барьер?",["Способ передачи информации","Любое препятствие, затрудняющее передачу или понимание информации","Вид обратной связи","Канал коммуникации"],1],
+["К какой группе барьеров относится различие в словарном запасе и уровне образования собеседников?",["Психологические","Семантические (смысловые)","Физические","Организационные"],1],
+["Барьер, связанный с разным пониманием значения слов, терминов и жаргона, называется:",["Фонетический","Семантический","Личностный","Временной"],1],
+["Плохая дикция, быстрый темп речи, акцент — это пример барьера:",["Семантического","Логического","Фонетического (барьера восприятия речи)","Культурного"],2],
+["Барьер, возникающий из-за несоответствия стиля изложения, логики рассуждений отправителя и получателя, называется:",["Логический","Физический","Эмоциональный","Информационный"],0],
+["Что относится к физическим (пространственным) барьерам?",["Недостаток времени","Шум, расстояние, плохая связь","Предвзятость","Разный уровень знаний"],1],
+["Барьер, вызванный нехваткой времени на обдумывание сообщения, называется:",["Семантический","Временной","Психологический","Организационный"],1],
+["Предвзятость, недоверие к собеседнику, антипатия относятся к барьерам:",["Психологическим","Физическим","Семантическим","Техническим"],0],
+["Какой барьер возникает, когда человек находится в состоянии стресса, гнева или усталости?",["Семантический","Эмоциональный (психоэмоциональный)","Логический","Культурный"],1],
+["Барьер, связанный с неумением слушать и перебиванием собеседника, называется:",["Барьер слушания (неумение слушать)","Фонетический","Информационный","Технический"],0],
+["Различия в традициях, нормах поведения, ценностях разных народов образуют барьер:",["Логический","Культурный (межкультурный)","Временной","Семантический"],1],
+["Что такое «информационная перегрузка» как коммуникационный барьер?",["Нехватка информации","Избыток информации, при котором человек не успевает её обрабатывать","Искажение информации","Утеря информации"],1],
+["Организационные барьеры связаны с:",["Особенностями личности","Структурой организации, иерархией, многоуровневой передачей информации","Языковыми различиями","Техническими неполадками"],1],
+["Какой барьер возникает из-за разного социального статуса и положения собеседников?",["Статусный (барьер статуса/иерархии)","Фонетический","Семантический","Временной"],0],
+["Искажение информации при её передаче через несколько уровней управления называется:",["Эффектом ореола","Барьером «испорченного телефона»","Стереотипизацией","Аттракцией"],1],
+["Технические барьеры — это:",["Непонимание терминов","Неисправность оборудования, помехи связи, отсутствие каналов связи","Различие культур","Неумение слушать"],1],
+["Барьер, связанный с использованием непонятных сокращений, аббревиатур и профессионального сленга, — это:",["Профессиональный (жаргоновый) барьер","Эмоциональный","Физический","Логический"],0],
+["Установка «я и так всё знаю» и отсутствие интереса к теме сообщения формируют барьер:",["Мотивационный (барьер отношения)","Фонетический","Технический","Семантический"],0],
+["К личностным (межличностным) барьерам относят:",["Шум и расстояние","Темперамент, характер, привычки, эгоцентризм собеседника","Неисправность техники","Иерархию организации"],1],
+["Какое из перечисленного НЕ является коммуникационным барьером?",["Семантический барьер","Психологический барьер","Активное слушание","Физический барьер"],2]
+];
+const L=["а","б","в","г"];
+const $=id=>document.getElementById(id);
+let i=0,score=0,wrong=[];
+function show(id){["start","quiz","result"].forEach(s=>$(s).hidden=s!==id);window.scrollTo(0,0)}
+function render(){
+ const [t,o]=Q[i];
+ $("q").textContent=(i+1)+". "+t;
+ $("num").textContent="Вопрос "+(i+1)+" из "+Q.length;
+ $("sc").textContent="Верно: "+score;
+ $("fill").style.width=(i/Q.length*100)+"%";
+ $("next").hidden=true;
+ $("next").textContent=i===Q.length-1?"Показать результат":"Дальше";
+ const box=$("opts");box.innerHTML="";
+ o.forEach((txt,k)=>{
+  const b=document.createElement("button");b.className="opt";
+  b.innerHTML="<b>"+L[k]+"</b><span></span>";b.lastChild.textContent=txt;
+  b.onclick=()=>pick(k);box.appendChild(b);
+ });
+}
+function pick(k){
+ const c=Q[i][2];
+ [...$("opts").children].forEach((b,n)=>{b.disabled=true;if(n===c)b.classList.add("ok");else if(n===k)b.classList.add("bad")});
+ if(k===c)score++;else wrong.push({n:i,k});
+ $("sc").textContent="Верно: "+score;
+ $("fill").style.width=((i+1)/Q.length*100)+"%";
+ $("next").hidden=false;$("next").focus();
+}
+function finish(){
+ $("rs").textContent=score+" / "+Q.length;
+ let g,t;
+ if(score>=18){g="Отлично";t="Вы отлично разбираетесь в видах коммуникационных барьеров."}
+ else if(score>=14){g="Хорошо";t="Хороший результат. Повторите вопросы, где были ошибки."}
+ else if(score>=10){g="Удовлетворительно";t="Базовые понятия усвоены, но тему стоит повторить."}
+ else{g="Нужно повторить тему";t="Прочитайте материал о видах барьеров и пройдите тест ещё раз."}
+ $("rg").textContent=g;$("rt").textContent=t;
+ const r=$("rev");r.innerHTML="";
+ if(!wrong.length){r.innerHTML="<div>Ошибок нет. Все ответы верны.</div>"}
+ wrong.forEach(w=>{
+  const q=Q[w.n],d=document.createElement("div"),s=document.createElement("strong");
+  s.textContent=(w.n+1)+". "+q[0];d.appendChild(s);
+  const a=document.createElement("span");a.className="r";a.textContent="Ваш ответ: "+L[w.k]+") "+q[1][w.k];
+  const b=document.createElement("span");b.className="g";b.textContent="Верно: "+L[q[2]]+") "+q[1][q[2]];
+  d.append(a,document.createElement("br"),b);r.appendChild(d);
+ });
+ show("result");
+}
+function start(){i=0;score=0;wrong=[];show("quiz");render()}
+$("go").onclick=start;$("again").onclick=start;
+$("next").onclick=()=>{if(i<Q.length-1){i++;render()}else finish()};
+</script>
+</body>
+</html>
